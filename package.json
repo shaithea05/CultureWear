@@ -1,0 +1,38 @@
+{
+  "name": "mongodb-culturewear",
+  "version": "1.0.0",
+  "description": "Blockchain-powered sustainable cultural fashion rental platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "setup": "npm install && mkdir -p public && echo 'Setup complete!'",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "blockchain",
+    "fashion",
+    "rental",
+    "cultural",
+    "sustainable",
+    "xrpl",
+    "flare"
+  ],
+  "author": "Shaithea and Chloe",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.1",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

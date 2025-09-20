@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CultureWear - Rent Authentic Cultural Attire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .nav-auth {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-btn.primary {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="30" fill="%23f8f9fa" opacity="0.1"/></pattern></defs><rect width="1000" height="1000" fill="url(%23grain)"/></svg>');
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Blockchain Tech Section */
+        .tech-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+        }
+
+        .tech-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tech-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">CultureWear</div>
+            <ul class="nav-links">
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="signin.html" class="auth-btn">Sign In</a>
+                <a href="signup.html" class="auth-btn primary">Get Started</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Rent Authentic Cultural Attire</h1>
+                <p>Access traditional clothing from cultures around the world. Kimonos, hanbok, qipao, dirndls, and
+                    more. Sustainable fashion with complete transparency and blockchain-verified authenticity.</p>
+                <a href="signup.html" class="cta-button">Start Browsing Outfits</a>
+            </div>
+        </div>
+    </section>
+
+    <!--  
+    <section class="tech-section">
+        <div class="container">
+            <h2>Powered by Blockchain Technology</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-logo">XRP</div>
+                    <h3>XRPL Payments</h3>
+                    <p>Global payments with minimal fees using XRPL's fast, efficient network. Pay with USDToken from
+                        anywhere in the world.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">🔥</div>
+                    <h3>Flare Network</h3>
+                    <p>Real-world data verification for deliveries, automatic refunds, and dynamic pricing based on
+                        cultural events.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">💎</div>
+                    <h3>StylePoints (FAssets)</h3>
+                    <p>Earn tradeable rewards that hold real value. Redeem for discounts or exchange with other users.
+                    </p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">🔗</div>
+                    <h3>NFT Digital Passports</h3>
+                    <p>Every garment has a complete blockchain history showing ownership, cleaning, and authenticity
+                        records.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Why Choose CultureWear?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🌍</span>
+                    <h3>Global Access</h3>
+                    <p>Rent authentic cultural attire from around the world with seamless cross-border payments using
+                        XRPL technology.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📋</span>
+                    <h3>Complete Transparency</h3>
+                    <p>Every garment has a digital passport showing rental history, cleaning records, and reviews from
+                        previous renters.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">♻️</span>
+                    <h3>Sustainable Fashion</h3>
+                    <p>Reduce fashion waste by sharing beautiful, high-quality garments instead of buying pieces worn
+                        only once.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Smart Automation</h3>
+                    <p>Automated delivery tracking, refunds, and quality verification powered by blockchain oracles.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💎</span>
+                    <h3>Designer Quality</h3>
+                    <p>Access premium designer pieces and traditional handcrafted garments at a fraction of the purchase
+                        price.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🏆</span>
+                    <h3>Rewards System</h3>
+                    <p>Earn StylePoints for every rental that can be redeemed for discounts or traded with other users.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Browse & Select</h3>
+                    <p>Browse our curated collection of authentic cultural attire and check each item's transparency
+                        passport.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Rent & Pay</h3>
+                    <p>Select your rental period and pay securely with XRPL tokens from anywhere in the world with
+                        minimal fees.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Wear & Enjoy</h3>
+                    <p>Receive your outfit with automated delivery tracking. Look stunning at your event with authentic
+                        designer wear.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Return & Earn</h3>
+                    <p>Return using the prepaid label. Earn StylePoints for on-time returns and leave a review for the
+                        next renter.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="about" style="margin-bottom: 4rem;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Meet Our Founders</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon" style="font-size: 2.5rem;">🛠️</span>
+                    <h3>Shaithea</h3>
+                    <p>
+                        Co-founder passionate about sustainable fashion and cultural diversity, Shaithea brings a vision
+                        to create a global platform that connects communities through authentic attire.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon" style="font-size: 2.5rem;">🔨</span>
+                    <h3>Chloe</h3>
+                    <p>
+                        Co-founder and tech innovator, Chloe leverages cutting-edge blockchain technology to ensure
+                        transparency and seamless experiences for every user on the platform.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Wardrobe?</h2>
+            <p>Join thousands of users who are embracing sustainable fashion without compromising on style.</p>
+            <a href="signup.html" class="cta-button">Get Started Today</a>
+        </div>
+    </section>
+
+
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#">Sustainability</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Size Guide</a>
+                    <a href="#">Care Instructions</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <a href="#">Blockchain</a>
+                    <a href="#">Security</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Account</h4>
+                    <a href="signin.html">My Dashboard</a>
+                    <a href="#">My Orders</a>
+                    <a href="#">StylePoints</a>
+                    <a href="#">Profile Settings</a>
+                </div>
+            </div>
+            <p>&copy; 2025 CultureWear. Sustainable fashion powered by blockchain technology.</p>
+        </div>
+    </footer>
+
+    <!-- Include Chatbot Widget -->
+    <script src="chatbot-widget.js"></script>
+</body>
+
+</html>

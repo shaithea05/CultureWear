@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CultureWear</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1100px;
+            margin: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 650px;
+        }
+
+        .signup-brand {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-brand::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="dots" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="2" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="1000" height="1000" fill="url(%23dots)"/></svg>');
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-large {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .brand-tagline {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .welcome-bonus {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .bonus-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .bonus-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .signup-form {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 650px;
+            overflow-y: auto;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .form-progress {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.5rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .progress-step.completed {
+            background: #28a745;
+            color: white;
+        }
+
+        .progress-step:not(.active):not(.completed) {
+            background: #e9ecef;
+            color: #666;
+        }
+
+        .signup-step {
+            display: none;
+        }
+
+        .signup-step.active {
+            display: block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .form-input.success {
+            border-color: #28a745;
+            background: #f8fff8;
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .strength-weak {
+            color: #dc3545;
+        }
+
+        .strength-medium {
+            color: #ffc107;
+        }
+
+        .strength-strong {
+            color: #28a745;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.2rem;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+
+        .checkbox-group a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .step-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .social-signup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .social-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #666;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e9ecef;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+        }
+
+        .wallet-setup {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .wallet-options {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .wallet-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .wallet-btn.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .wallet-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .xumm {
+            background: linear-gradient(45deg, #3375BB, #4A90E2);
+        }
+
+        .metamask {
+            background: linear-gradient(45deg, #F6851B, #E2761B);
+        }
+
+        .ledger {
+            background: linear-gradient(45deg, #000000, #333333);
+        }
+
+        .wallet-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .wallet-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .wallet-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .skip-wallet {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .skip-wallet a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .success-animation {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .signin-link {
+            text-align: center;
+            color: #666;
+            margin-top: 1rem;
+        }
+
+        .signin-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signin-link a:hover {
+            color: #764ba2;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .signup-container {
+                grid-template-columns: 1fr;
+                margin: 10px;
+                max-width: 400px;
+            }
+
+            .signup-brand {
+                display: none;
+            }
+
+            .signup-form {
+                padding: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .social-signup {
+                grid-template-columns: 1fr;
+            }
+
+            .step-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="back-home">
+        ← Back to Home
+    </a>
+
+    <div class="signup-container">
+        <div class="signup-brand">
+            <div class="brand-content">
+                <div class="logo-large">CultureWear</div>
+                <div class="brand-tagline">
+                    Join the sustainable cultural fashion revolution
+                </div>
+
+                <div class="welcome-bonus">
+                    <div class="bonus-amount">500 StylePoints</div>
+                    <div class="bonus-text">Welcome bonus for new members!</div>
+                </div>
+
+                <div style="font-size: 0.9rem; opacity: 0.8; line-height: 1.5;">
+                    🌍 Access authentic cultural attire globally<br>
+                    🔗 Blockchain-verified authenticity<br>
+                    💎 Earn & trade StylePoints<br>
+                    ♻️ Sustainable fashion rental
+                </div>
+            </div>
+        </div>
+
+        <div class="signup-form">
+            <div class="form-header">
+                <h1>Create Your Account</h1>
+                <p>Join thousands embracing sustainable cultural fashion</p>
+            </div>
+
+            <div class="form-progress">
+                <div class="progress-step active" id="step-1-indicator">1</div>
+                <div class="progress-step" id="step-2-indicator">2</div>
+                <div class="progress-step" id="step-3-indicator">3</div>
+            </div>
+
+            <!-- Step 1: Basic Info -->
+            <div class="signup-step active" id="step-1">
+                <div class="social-signup">
+                    <a href="#" class="social-btn" onclick="socialSignup('google')">
+                        <span>📱</span> Google
+                    </a>
+                    <a href="#" class="social-btn" onclick="socialSignup('apple')">
+                        <span>🍎</span> Apple
+                    </a>
+                </div>
+
+                <div class="divider">
+                    <span>or create account manually</span>
+                </div>
+
+                <form id="step-1-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-input" placeholder="Enter first name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-input" placeholder="Enter last name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Create a strong password"
+                            required>
+                        <div class="password-strength" id="password-strength"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-input"
+                            placeholder="Confirm your password" required>
+                    </div>
+
+                    <div class="step-buttons">
+                        <div></div>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(1)">
+                            Continue <span>→</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2: Profile & Preferences -->
+            <div class="signup-step" id="step-2">
+                <form id="step-2-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country" class="form-input" required>
+                                <option value="">Select your country</option>
+                                <option value="US">United States</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="CA">Canada</option>
+                                <option value="IN">India</option>
+                                <option value="JP">Japan</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="AU">Australia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timezone">Timezone</label>
+                            <select id="timezone" class="form-input" required>
+                                <option value="">Select timezone</option>
+                                <option value="UTC-8">Pacific Time (UTC-8)</option>
+                                <option value="UTC-5">Eastern Time (UTC-5)</option>
+                                <option value="UTC+0">GMT (UTC+0)</option>
+                                <option value="UTC+1">Central Europe (UTC+1)</option>
+                                <option value="UTC+5:30">India (UTC+5:30)</option>
+                                <option value="UTC+9">Japan (UTC+9)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter" checked>
+                        <label for="newsletter">
+                            I'd like to receive updates about new cultural collections, sustainability tips, and special
+                            offers.
+                        </label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <div class="step-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep(2)">
+                            <span>←</span> Back
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                            Continue <span>→</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Wallet Setup -->
+            <div class="signup-step" id="step-3">
+                <div class="wallet-setup">
+                    <h3 style="margin-bottom: 1rem;">Setup Your Web3 Wallet</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">Connect a wallet to unlock StylePoints, NFT garment
+                        tracking, and global payments.</p>
+
+                    <div class="wallet-options">
+                        <div class="wallet-btn" onclick="selectWallet('xumm')">
+                            <div class="wallet-icon xumm">X</div>
+                            <div class="wallet-info">
+                                <div class="wallet-name">Xumm Wallet</div>
+                                <div class="wallet-desc">XRPL native wallet for payments</div>
+                            </div>
+                        </div>
+
+                        <div class="wallet-btn" onclick="selectWallet('metamask')">
+                            <div class="wallet-icon metamask">M</div>
+                            <div class="wallet-info">
+                                <div class="wallet-name">MetaMask</div>
+                                <div class="wallet-desc">Popular wallet for Flare & Ethereum</div>
+                            </div>
+                        </div>
+
+                        <div class="wallet-btn" onclick="selectWallet('ledger')">
+                            <div class="wallet-icon ledger">L</div>
+                            <div class="wallet-info">
+                                <div class="wallet-name">Ledger</div>
+                                <div class="wallet-desc">Hardware wallet security</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skip-wallet">
+                        <a href="#" onclick="skipWallet()">Skip for now - I'll add a wallet later</a>
+                    </div>
+                </div>
+
+                <div class="step-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(3)">
+                        <span>←</span> Back
+                    </button>
+                    <button type="button" class="btn btn-primary" id="complete-signup-btn" onclick="completeSignup()"
+                        disabled>
+                        <span class="btn-text">Create Account</span>
+                        <div class="loading-spinner"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Success Step -->
+            <div class="signup-step" id="step-success">
+                <div class="success-animation">
+                    <div class="success-icon">🎉</div>
+                    <h2 style="color: #2c3e50; margin-bottom: 1rem;">Welcome to CultureWear!</h2>
+                    <p style="color: #666; margin-bottom: 2rem;">Your account has been created successfully. You've
+                        received 500 StylePoints as a welcome bonus!</p>
+
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem;">
+                        <h4 style="color: #2c3e50; margin-bottom: 1rem;">What's Next?</h4>
+                        <div style="text-align: left; color: #666;">
+                            ✅ Explore authentic cultural garments<br>
+                            ✅ Complete your profile for better recommendations<br>
+                            ✅ Connect your wallet to unlock full features<br>
+                            ✅ Start earning more StylePoints through rentals
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="goToDashboard()">
+                        Go to Dashboard <span>→</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="signin-link">
+                Already have an account? <a href="signin.html">Sign in here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let currentStep = 1;
+        let selectedWallet = null;
+        let userData = {};
+
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthIndicator = document.getElementById('password-strength');
+            if (!strengthIndicator) return true;
+
+            let strength = 0;
+
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+            switch (strength) {
+                case 0:
+                case 1:
+                    strengthIndicator.textContent = 'Very Weak';
+                    strengthIndicator.className = 'password-strength strength-weak';
+                    break;
+                case 2:
+                    strengthIndicator.textContent = 'Weak';
+                    strengthIndicator.className = 'password-strength strength-weak';
+                    break;
+                case 3:
+                    strengthIndicator.textContent = 'Medium';
+                    strengthIndicator.className = 'password-strength strength-medium';
+                    break;
+                case 4:
+                case 5:
+                    strengthIndicator.textContent = 'Strong';
+                    strengthIndicator.className = 'password-strength strength-strong';
+                    break;
+            }
+            return password.length >= 6;
+        }
+
+        // Form validation
+        function validateStep(stepNumber) {
+            const form = document.getElementById(`step-${stepNumber}-form`);
+            if (!form) return true;
+
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('error');
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                    input.classList.add('success');
+                }
+            });
+
+            // Additional validations for Step 1
+            if (stepNumber === 1) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const email = document.getElementById('email').value;
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    document.getElementById('email').classList.add('error');
+                    showError('Please enter a valid email address.');
+                    isValid = false;
+                }
+
+                // Password strength validation
+                if (password.length < 6) {
+                    document.getElementById('password').classList.add('error');
+                    showError('Password must be at least 6 characters long.');
+                    isValid = false;
+                }
+
+                // Confirm password validation
+                if (password !== confirmPassword) {
+                    document.getElementById('confirmPassword').classList.add('error');
+                    showError('Passwords do not match.');
+                    isValid = false;
+                }
+            }
+
+            // Additional validations for Step 2
+            if (stepNumber === 2) {
+                // Check if terms are accepted
+                const terms = document.getElementById('terms');
+                if (!terms.checked) {
+                    showError('Please accept the Terms of Service and Privacy Policy to continue.');
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        // Step navigation
+        function nextStep(stepNumber) {
+            if (!validateStep(stepNumber)) {
+                return;
+            }
+
+            // Store step data
+            if (stepNumber === 1) {
+                userData.firstName = document.getElementById('firstName').value.trim();
+                userData.lastName = document.getElementById('lastName').value.trim();
+                userData.email = document.getElementById('email').value.trim();
+                userData.password = document.getElementById('password').value;
+            }
+
+            if (stepNumber === 2) {
+                userData.country = document.getElementById('country').value;
+                userData.timezone = document.getElementById('timezone').value;
+                userData.newsletter = document.getElementById('newsletter').checked;
+                userData.interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(cb => cb.value);
+            }
+
+            // Move to next step
+            document.getElementById(`step-${stepNumber}`).classList.remove('active');
+            document.getElementById(`step-${stepNumber + 1}`).classList.add('active');
+            document.getElementById(`step-${stepNumber}-indicator`).classList.add('completed');
+            document.getElementById(`step-${stepNumber + 1}-indicator`).classList.add('active');
+            currentStep = stepNumber + 1;
+        }
+
+        function previousStep(stepNumber) {
+            document.getElementById(`step-${stepNumber}`).classList.remove('active');
+            document.getElementById(`step-${stepNumber - 1}`).classList.add('active');
+            document.getElementById(`step-${stepNumber}-indicator`).classList.remove('active');
+            if (stepNumber > 2) {
+                document.getElementById(`step-${stepNumber - 1}-indicator`).classList.remove('completed');
+                document.getElementById(`step-${stepNumber - 1}-indicator`).classList.add('active');
+            }
+            currentStep = stepNumber - 1;
+        }
+
+        // Wallet selection
+        function selectWallet(walletType) {
+            selectedWallet = walletType;
+
+            // Update UI
+            document.querySelectorAll('.wallet-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.closest('.wallet-btn').classList.add('selected');
+
+            // Enable complete button
+            document.getElementById('complete-signup-btn').disabled = false;
+        }
+
+        function skipWallet() {
+            selectedWallet = 'skip';
+            document.getElementById('complete-signup-btn').disabled = false;
+        }
+
+        // Social signup (placeholder - would integrate with OAuth providers)
+        function socialSignup(provider) {
+            showError(`${provider} signup integration coming soon! Please use email signup for now.`);
+        }
+
+        // Complete signup - Send data to MongoDB
+        async function completeSignup() {
+            const btn = document.getElementById('complete-signup-btn');
+            const btnText = btn.querySelector('.btn-text');
+            const spinner = btn.querySelector('.loading-spinner');
+
+            btn.disabled = true;
+            btnText.style.display = 'none';
+            spinner.style.display = 'inline-block';
+
+            // Prepare final user data
+            const finalUserData = {
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                email: userData.email,
+                password: userData.password,
+                country: userData.country,
+                timezone: userData.timezone,
+                interests: userData.interests,
+                newsletter: userData.newsletter,
+                walletType: selectedWallet || 'skip',
+                walletAddress: null // Will be set later when wallet is connected
+            };
+
+            try {
+                // Send POST request to backend
+                const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(finalUserData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Store authentication data
+                    localStorage.setItem('authToken', result.token);
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('userName', result.user.firstName);
+                    localStorage.setItem('userEmail', result.user.email);
+                    localStorage.setItem('userId', result.user._id);
+                    localStorage.setItem('signupComplete', 'true');
+
+                    // Show success step
+                    document.getElementById('step-3').classList.remove('active');
+                    document.getElementById('step-success').classList.add('active');
+                    document.getElementById('step-3-indicator').classList.add('completed');
+
+                    showSuccess('Account created successfully! Welcome to CultureWear!');
+
+                } else {
+                    // Handle errors
+                    throw new Error(result.message || 'Signup failed');
+                }
+
+            } catch (error) {
+                console.error('Signup error:', error);
+                showError(error.message || 'Failed to create account. Please try again.');
+
+                // Reset button state
+                btn.disabled = false;
+                btnText.style.display = 'inline';
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Utility functions
+        function showError(message) {
+            // Create or update error alert
+            let errorAlert = document.getElementById('error-alert');
+            if (!errorAlert) {
+                errorAlert = document.createElement('div');
+                errorAlert.id = 'error-alert';
+                errorAlert.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3);
+            z-index: 10000;
+            max-width: 400px;
+            font-size: 0.9rem;
+            animation: slideIn 0.3s ease-out;
+        `;
+                document.body.appendChild(errorAlert);
+            }
+
+            errorAlert.textContent = message;
+            errorAlert.style.display = 'block';
+
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (errorAlert) errorAlert.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            let successAlert = document.getElementById('success-alert');
+            if (!successAlert) {
+                successAlert = document.createElement('div');
+                successAlert.id = 'success-alert';
+                successAlert.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(40, 167, 69, 0.3);
+            z-index: 10000;
+            max-width: 400px;
+            font-size: 0.9rem;
+            animation: slideIn 0.3s ease-out;
+        `;
+                document.body.appendChild(successAlert);
+            }
+
+            successAlert.textContent = message;
+            successAlert.style.display = 'block';
+
+            setTimeout(() => {
+                if (successAlert) successAlert.style.display = 'none';
+            }, 3000);
+        }
+
+        function goToDashboard() {
+            window.location.href = '/dashboard';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function () {
+            // Password strength checker
+            const passwordInput = document.getElementById('password');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function () {
+                    checkPasswordStrength(this.value);
+                });
+            }
+
+            // Real-time validation
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.addEventListener('blur', function () {
+                    if (this.value.trim()) {
+                        this.classList.remove('error');
+                        this.classList.add('success');
+                    }
+                });
+
+                input.addEventListener('focus', function () {
+                    this.classList.remove('error', 'success');
+                });
+            });
+
+            // Form submission handlers
+            const step1Form = document.getElementById('step-1-form');
+            if (step1Form) {
+                step1Form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    nextStep(1);
+                });
+            }
+
+            const step2Form = document.getElementById('step-2-form');
+            if (step2Form) {
+                step2Form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    nextStep(2);
+                });
+            }
+
+            // Enable complete button initially disabled
+            const completeBtn = document.getElementById('complete-signup-btn');
+            if (completeBtn) {
+                completeBtn.disabled = true;
+            }
+        });
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+`;
+        document.head.appendChild(style);
+    </script>
+
+</body>
+
+</html>

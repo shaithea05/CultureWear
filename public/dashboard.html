@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - CultureWear</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            padding: 2rem 0;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .welcome-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Current Rentals */
+        .rental-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .rental-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .rental-image {
+            width: 100px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .rental-details {
+            flex: 1;
+        }
+
+        .rental-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .rental-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rental-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-returning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* StylePoints & Rewards */
+        .stylepoints-card {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .points-balance {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .points-value {
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .redeem-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .redeem-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Blockchain Verification */
+        .verification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .verification-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .verified {
+            background: #28a745;
+        }
+
+        .pending {
+            background: #ffc107;
+        }
+
+        .blockchain-hash {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #666;
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .action-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        /* Payment History */
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-details {
+            flex: 1;
+        }
+
+        .payment-amount {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .payment-method {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .xrp-badge {
+            background: linear-gradient(45deg, #23282d, #3c4956);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-section {
+                text-align: center;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .rental-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .rental-image {
+                width: 100%;
+                height: 150px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">CultureWear</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#browse">Browse</a></li>
+                <li><a href="#orders">My Orders</a></li>
+                <li><a href="#stylepoints">StylePoints</a></li>
+            </ul>
+            <div class="user-info">
+                <span id="welcome-text">Welcome, Guest!</span>
+                <div class="user-avatar" id="user-avatar">G</div>
+                <button onclick="logout()"
+                    style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; margin-left: 1rem;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard container">
+        <div class="dashboard-header">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    <h1 id="dashboard-welcome">Welcome back, Guest! 👋</h1>
+                    <p>Your sustainable fashion journey continues</p>
+                </div>
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Total Rentals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">847</div>
+                        <div class="stat-label">CO₂ Saved (kg)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Countries Explored</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-column">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>👗</span> Current Rentals
+                    </h2>
+
+                    <div class="rental-item">
+                        <div class="rental-image">🥻</div>
+                        <div class="rental-details">
+                            <div class="rental-title">Elegant Silk Saree - Royal Blue</div>
+                            <div class="rental-meta">Rented: Dec 15, 2024 • Return by: Dec 20, 2024</div>
+                            <div class="rental-meta">NFT ID: #SAR-2024-4782 • Times Worn: 3/5</div>
+                            <span class="rental-status status-active">Active Rental</span>
+                        </div>
+                    </div>
+
+                    <div class="rental-item">
+                        <div class="rental-image">👘</div>
+                        <div class="rental-details">
+                            <div class="rental-title">Traditional Furisode Kimono</div>
+                            <div class="rental-meta">Event: New Year Celebration • Returned: Dec 18, 2024</div>
+                            <div class="rental-meta">NFT ID: #KIM-2024-1205 • Cleaning: Verified ✓</div>
+                            <span class="rental-status status-delivered">Returned Successfully</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>🔗</span> Blockchain Verification
+                    </h2>
+
+                    <div class="verification-item">
+                        <div>
+                            <div><strong>Delivery Confirmation</strong></div>
+                            <div style="font-size: 0.9rem; color: #666;">Saree delivery verified</div>
+                        </div>
+                        <div class="verification-status">
+                            <div class="status-icon verified"></div>
+                            <span>Verified</span>
+                        </div>
+                    </div>
+
+                    <div class="verification-item">
+                        <div>
+                            <div><strong>Return Processing</strong></div>
+                            <div style="font-size: 0.9rem; color: #666;">Kimono return & cleaning</div>
+                        </div>
+                        <div class="verification-status">
+                            <div class="status-icon pending"></div>
+                            <span>Processing</span>
+                        </div>
+                    </div>
+
+                    <div class="verification-item">
+                        <div>
+                            <div><strong>Quality Assessment</strong></div>
+                            <div class="blockchain-hash">0x7a9f...4e2b</div>
+                        </div>
+                        <div class="verification-status">
+                            <div class="status-icon verified"></div>
+                            <span>On-Chain</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>💳</span> Recent Payments
+                    </h2>
+
+                    <div class="payment-item">
+                        <div class="payment-details">
+                            <div class="payment-amount">$89.00 USD</div>
+                            <div class="payment-method">
+                                <span class="xrp-badge">XRPL</span>
+                                Via USDToken • Dec 15, 2024
+                            </div>
+                        </div>
+                        <div style="color: #28a745;">✓ Complete</div>
+                    </div>
+
+                    <div class="payment-item">
+                        <div class="payment-details">
+                            <div class="payment-amount">$65.00 USD</div>
+                            <div class="payment-method">
+                                <span class="xrp-badge">XRPL</span>
+                                Via USDToken • Dec 08, 2024
+                            </div>
+                        </div>
+                        <div style="color: #28a745;">✓ Complete</div>
+                    </div>
+
+                    <div class="payment-item">
+                        <div class="payment-details">
+                            <div class="payment-amount">$15.00 USD</div>
+                            <div class="payment-method">
+                                <span class="xrp-badge">XRPL</span>
+                                Refund - Late delivery • Dec 06, 2024
+                            </div>
+                        </div>
+                        <div style="color: #17a2b8;">↩ Refunded</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>💎</span> StylePoints Balance
+                    </h2>
+
+                    <div class="stylepoints-card">
+                        <div class="points-balance">2,847</div>
+                        <div class="points-value">≈ $28.47 USD value</div>
+                        <a href="#" class="redeem-btn">Redeem Points</a>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem; color: #2c3e50;">Recent Point Activity</h4>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
+                            +150 points • Kimono return bonus
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
+                            +200 points • 5-star review given
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            +100 points • On-time return
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>⚡</span> Quick Actions
+                    </h2>
+
+                    <div class="quick-actions">
+                        <a href="index.html" class="action-btn">
+                            <span class="action-icon">🔍</span>
+                            <div>
+                                <div><strong>Browse Outfits</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Discover new cultural wear</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="action-btn">
+                            <span class="action-icon">📦</span>
+                            <div>
+                                <div><strong>Track Delivery</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Monitor your current orders</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="action-btn">
+                            <span class="action-icon">💬</span>
+                            <div>
+                                <div><strong>Leave Review</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Share your experience</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="action-btn">
+                            <span class="action-icon">🎁</span>
+                            <div>
+                                <div><strong>Refer Friends</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Earn bonus StylePoints</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>📊</span> Sustainability Impact
+                    </h2>
+
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2rem; color: #28a745; margin-bottom: 0.5rem;">🌱</div>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">Environmental Hero</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                            By choosing rental over buying, you've prevented 847kg of CO₂ emissions
+                        </div>
+                        <div
+                            style="background: #f8f9fa; padding: 1rem; border-radius: 10px; font-size: 0.8rem; color: #666;">
+                            That's equivalent to driving 2,100 fewer miles! 🚗→🌍
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Check authentication status on page load
+        function checkAuthStatus() {
+            const isLoggedIn = localStorage.getItem('userLoggedIn');
+            const userName = localStorage.getItem('userName');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                // Redirect to sign-in if not logged in
+                alert('Please sign in to access your dashboard.');
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            // Update UI with user info
+            if (userName) {
+                document.getElementById('welcome-text').textContent = `Welcome, ${userName}!`;
+                document.getElementById('user-avatar').textContent = userName.charAt(0).toUpperCase();
+                document.getElementById('dashboard-welcome').textContent = `Welcome back, ${userName}! 👋`;
+            }
+
+            // Update StylePoints if available
+            if (currentUser.stylePoints) {
+                const pointsBalance = document.querySelector('.points-balance');
+                const pointsValue = document.querySelector('.points-value');
+                if (pointsBalance) {
+                    pointsBalance.textContent = currentUser.stylePoints.toLocaleString();
+                    pointsValue.textContent = `≈ ${(currentUser.stylePoints / 100).toFixed(2)} USD value`;
+                }
+            }
+
+            // Show signup bonus message if user just signed up
+            const signupComplete = localStorage.getItem('signupComplete');
+            if (signupComplete === 'true') {
+                setTimeout(() => {
+                    alert(`🎉 Welcome to CultureWear, ${userName}!\n\nYour account is ready and you've received 500 StylePoints as a welcome bonus. Start exploring authentic cultural attire from around the world!`);
+                    localStorage.removeItem('signupComplete');
+                }, 1000);
+            }
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear stored user data
+                localStorage.removeItem('userLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('loginMethod');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('walletType');
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('signupComplete');
+
+                // Redirect to landing page
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Run authentication check when page loads
+        document.addEventListener('DOMContentLoaded', checkAuthStatus);
+    </script>
+
+    <!-- Include Chatbot Widget -->
+    <script src="chatbot-widget.js"></script>
+
+</body>
+
+</html>
