@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Garment Catalog - CultureWear</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .catalog-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .catalog-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .garment-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .garment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .garment-image {
+            height: 250px;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ffd700;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .garment-content {
+            padding: 2rem;
+        }
+
+        .garment-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .garment-culture {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .garment-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .garment-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .price-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-main {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .artisan-info {
+            background: #e8f4f8;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .artisan-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .artisan-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .sustainability-score {
+            background: #d4edda;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 0.25rem;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            color: #155724;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+            max-width: 200px;
+        }
+
+        /* Rental Modal Styles */
+        .rental-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 2rem 2rem 1rem 2rem;
+            position: relative;
+        }
+
+        .user-balance {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .balance-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
+        }
+
+        .balance-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stylepoints-value {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 1rem 2rem 2rem 2rem;
+        }
+
+        .rental-garment-info {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .rental-garment-image {
+            width: 120px;
+            height: 150px;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .rental-garment-details h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .rental-garment-culture {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .rental-pricing {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-daily {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .price-weekly {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .rental-form {
+            margin-top: 1.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .size-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .size-option {
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .size-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .size-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .size-option.unavailable {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f8f9fa;
+        }
+
+        .rental-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .rental-actions {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1rem;
+        }
+
+        .payment-methods {
+            margin-top: 1.5rem;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .payment-option.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .xrpl-payment {
+            background: linear-gradient(45deg, #23282d, #3c4956);
+        }
+
+        .stylepoints-payment {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        }
+
+        .traditional-payment {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                max-height: 95vh;
+            }
+
+            .modal-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .user-balance {
+                order: -1;
+            }
+
+            .rental-garment-info {
+                flex-direction: column;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .rental-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .size-options {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .availability-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rented {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .catalog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="catalog-header">
+                <h1>Cultural Garment Catalog</h1>
+                <p>Authentic traditional attire from cultures around the world</p>
+
+                <div class="catalog-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-garments">24</div>
+                        <div>Total Garments</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div>Cultural Categories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">156</div>
+                        <div>Artisans Supported</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2,847kg</div>
+                        <div>CO₂ Saved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filters">
+            <h3 style="margin-bottom: 1rem;">Filter Garments</h3>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="culture-filter">Culture</label>
+                    <select id="culture-filter" class="filter-select">
+                        <option value="">All Cultures</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Korean">Korean</option>
+                        <option value="German">German</option>
+                        <option value="Ghanaian">Ghanaian</option>
+                        <option value="Mexican">Mexican</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="category-filter">Category</label>
+                    <select id="category-filter" class="filter-select">
+                        <option value="">All Categories</option>
+                        <option value="Asian Traditional">Asian Traditional</option>
+                        <option value="European Folk">European Folk</option>
+                        <option value="African Heritage">African Heritage</option>
+                        <option value="Latin American">Latin American</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price-filter">Price Range</label>
+                    <select id="price-filter" class="filter-select">
+                        <option value="">All Prices</option>
+                        <option value="0-50">Under $50/day</option>
+                        <option value="50-75">$50-$75/day</option>
+                        <option value="75-100">$75+/day</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="availability-filter">Availability</label>
+                    <select id="availability-filter" class="filter-select">
+                        <option value="">All</option>
+                        <option value="Available">Available Now</option>
+                        <option value="Featured">Featured Only</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="catalog-grid" id="catalog-grid">
+            <!-- Garments will be populated by JavaScript -->
+        </div>
+
+        <div class="no-results" id="no-results" style="display: none;">
+            <h3>No garments found</h3>
+            <p>Try adjusting your filters to see more results</p>
+        </div>
+    </div>
+
+    <!-- Rental Modal -->
+    <div class="rental-modal" id="rental-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- XRPL wallet balance (show XRP + USD equivalent) -->
+                <div class="user-balance">
+                    <div class="balance-label">XRPL Wallet</div>
+                    <div class="balance-amount" id="xrpl-balance">0.000000 XRP</div>
+                    <div class="stylepoints-value" id="xrpl-balance-usd">≈ $0.00 USD</div>
+                </div>
+                <!-- Off-chain StylePoints balance -->
+                <div class="user-balance">
+                    <div class="balance-label">StylePoints</div>
+                    <div class="balance-amount" id="sp-balance">0</div>
+                    <div class="stylepoints-value" id="sp-balance-usd">≈ $0.00 USD</div>
+                </div>
+                <button class="modal-close" onclick="closeRentalModal()">×</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="rental-garment-info" id="rental-garment-info">
+                    <!-- Garment info will be populated by JavaScript -->
+                </div>
+
+                <div class="rental-form">
+                    <div class="form-section">
+                        <h4>📅 Rental Period</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="start-date">Start Date</label>
+                                <input type="date" id="start-date" class="form-input" onchange="calculateRentalPrice()">
+                            </div>
+                            <div class="form-group">
+                                <label for="end-date">End Date</label>
+                                <input type="date" id="end-date" class="form-input" onchange="calculateRentalPrice()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>📏 Size Selection</h4>
+                        <div class="size-options" id="size-options">
+                            <!-- Size options will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>📦 Delivery Information</h4>
+                        <div class="form-group">
+                            <label for="delivery-address">Delivery Address</label>
+                            <textarea id="delivery-address" class="form-input" rows="3"
+                                placeholder="Enter your full delivery address"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="delivery-instructions">Special Instructions</label>
+                                <input type="text" id="delivery-instructions" class="form-input"
+                                    placeholder="Optional delivery notes">
+                            </div>
+                            <div class="form-group">
+                                <label for="occasion">Occasion</label>
+                                <select id="occasion" class="form-select">
+                                    <option value="">Select occasion</option>
+                                    <option value="wedding">Wedding</option>
+                                    <option value="cultural-festival">Cultural Festival</option>
+                                    <option value="formal-event">Formal Event</option>
+                                    <option value="educational">Educational Event</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rental-summary" id="rental-summary">
+                        <div class="summary-row">
+                            <span>Rental Days:</span>
+                            <span id="rental-days">0 days</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Daily Rate:</span>
+                            <span id="daily-rate">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Security Deposit:</span>
+                            <span id="security-deposit">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>StylePoints Earned:</span>
+                            <span id="stylepoints-earned">+0 points</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Total Cost:</span>
+                            <span id="total-cost">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="payment-methods">
+                        <h4>💳 Payment Method</h4>
+                        <div class="payment-option selected" onclick="selectPaymentMethod(this,'xrpl')">
+                            <div class="payment-icon xrpl-payment">XRP</div>
+                            <div>
+                                <div style="font-weight: 600;">XRPL Payment</div>
+                                <div style="font-size: 0.9rem; color: #666;">Pay with USDToken - Low fees, global access</div>
+                            </div>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentMethod(this,'stylepoints')">
+                            <div class="payment-icon stylepoints-payment">💎</div>
+                            <div>
+                                <div style="font-weight: 600;">StylePoints</div>
+                                <div style="font-size: 0.9rem; color: #666;">Use your earned points for discount</div>
+                            </div>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentMethod(this,'traditional')">
+                            <div class="payment-icon traditional-payment">💳</div>
+                            <div>
+                                <div style="font-weight: 600;">Credit Card</div>
+                                <div style="font-size: 0.9rem; color: #666;">Traditional payment method</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rental-actions">
+                        <button class="btn btn-secondary" onclick="closeRentalModal()">
+                            Cancel
+                        </button>
+                        <button class="btn btn-primary" id="confirm-rental-btn" onclick="confirmRental()" disabled>
+                            Confirm Rental
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script>
+        // Sample garment data (in real app, this would come from API)
+        
+
+        // ===== XRPL demo config =====
+        // Real test addresses provided by user
+        const BUYER_ADDR    = "rnnfe5s5bGJAxjEG5wm28GtXDJ57Ai3FWE";   // same wallet as your XRPL_SEED in backend
+        const MERCHANT_ADDR = "rPNZMjDhuS7DauRngu9m1J3Q38FEahFeWG";
+        const XRPL_USD_RATE = 0.50; // demo conversion: $ to XRP
+
+        function toFixed(num, digits = 6) {
+        return Number(num).toFixed(digits);
+        }
+
+        // ✅ Put all items inside the array:
+        const garments = [
+            {
+                id: "KIM-001",
+                name: "Elegant Silk Furisode Kimono",
+                culture: "Japanese",
+                category: "Asian Traditional",
+                type: "Formal Wear",
+                description: "A stunning formal kimono with intricate cherry blossom patterns. Perfect for tea ceremonies, cultural festivals, or formal events.",
+                dailyRate: 89.99,
+                weeklyRate: 299.99,
+                artisan: {
+                    name: "Sakura Tanaka",
+                    location: "Kyoto, Japan",
+                    experience: "25 years"
+                },
+                sustainabilityScore: 92,
+                featured: true,
+                availability: "Available",
+                emoji: "👘"
+            },
+            {
+                id: "SAR-002",
+                name: "Royal Blue Silk Saree",
+                culture: "Indian",
+                category: "Asian Traditional",
+                type: "Formal Wear",
+                description: "Exquisite Banarasi silk saree with intricate gold zari work. Includes matching blouse and petticoat.",
+                dailyRate: 65.99,
+                weeklyRate: 219.99,
+                artisan: {
+                    name: "Priya Sharma",
+                    location: "Varanasi, India",
+                    experience: "18 years"
+                },
+                sustainabilityScore: 88,
+                featured: true,
+                availability: "Available",
+                emoji: "🥻"
+            },
+            {
+                id: "HAN-003",
+                name: "Traditional Hanbok Set",
+                culture: "Korean",
+                category: "Asian Traditional",
+                type: "Formal Wear",
+                description: "Authentic Korean hanbok with jeogori (jacket) and chima (skirt) in vibrant colors.",
+                dailyRate: 72.99,
+                weeklyRate: 245.99,
+                artisan: {
+                    name: "Min-Jung Park",
+                    location: "Seoul, South Korea",
+                    experience: "22 years"
+                },
+                sustainabilityScore: 89,
+                featured: false,
+                availability: "Available",
+                emoji: "👗"
+            },
+            {
+                id: "DIR-004",
+                name: "Bavarian Dirndl with Apron",
+                culture: "German",
+                category: "European Folk",
+                type: "Traditional Folk Wear",
+                description: "Authentic Bavarian dirndl with embroidered bodice, full skirt, and decorative apron.",
+                dailyRate: 45.99,
+                weeklyRate: 155.99,
+                artisan: {
+                    name: "Greta Mueller",
+                    location: "Munich, Germany",
+                    experience: "30 years"
+                },
+                sustainabilityScore: 85,
+                featured: false,
+                availability: "Available",
+                emoji: "👚"
+            },
+            {
+                id: "KEN-005",
+                name: "Authentic Kente Wrap Set",
+                culture: "Ghanaian",
+                category: "African Heritage",
+                type: "Ceremonial Wear",
+                description: "Hand-woven Kente cloth in traditional patterns with deep cultural symbolism.",
+                dailyRate: 55.99,
+                weeklyRate: 189.99,
+                artisan: {
+                    name: "Kwame Asante",
+                    location: "Kumasi, Ghana",
+                    experience: "35 years"
+                },
+                sustainabilityScore: 95,
+                featured: true,
+                availability: "Available",
+                emoji: "🎽"
+            },
+            {
+                id: "HUI-006",
+                name: "Embroidered Huipil Dress",
+                culture: "Mexican",
+                category: "Latin American",
+                type: "Traditional Dress",
+                description: "Beautifully hand-embroidered huipil from Oaxaca with intricate floral motifs.",
+                dailyRate: 49.99,
+                weeklyRate: 169.99,
+                artisan: {
+                    name: "Maria Gonzalez",
+                    location: "Oaxaca, Mexico",
+                    experience: "20 years"
+                },
+                sustainabilityScore: 91,
+                featured: false,
+                availability: "Available",
+                emoji: "👕"
+            }
+        ];
+
+        let filteredGarments = garments;
+
+        // Render garments to the page
+        function renderGarments(garmentsToRender) {
+            const catalogGrid = document.getElementById('catalog-grid');
+            const noResults = document.getElementById('no-results');
+
+            if (garmentsToRender.length === 0) {
+                catalogGrid.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            catalogGrid.innerHTML = garmentsToRender.map(garment => `
+                <div class="garment-card">
+                    <div class="garment-image">
+                        ${garment.featured ? '<div class="featured-badge">Featured</div>' : ''}
+                        <span>${garment.emoji}</span>
+                    </div>
+                    <div class="garment-content">
+                        <div class="garment-title">${garment.name}</div>
+                        <div class="garment-culture">${garment.culture} • ${garment.category}</div>
+                        
+                        <div class="availability-status ${garment.availability.toLowerCase().replace(' ', '')}">
+                            ${garment.availability}
+                        </div>
+
+                        <div class="garment-description">${garment.description}</div>
+
+                        <div class="price-section">
+                            <div class="price-main">${garment.dailyRate}/day</div>
+                            <div class="price-details">Weekly: ${garment.weeklyRate} • Security deposit required</div>
+                        </div>
+
+                        <div class="artisan-info">
+                            <div class="artisan-name">👨‍🎨 ${garment.artisan.name}</div>
+                            <div class="artisan-details">${garment.artisan.location} • ${garment.artisan.experience} experience</div>
+                        </div>
+
+                        <div class="sustainability-score">
+                            <div class="score-number">${garment.sustainabilityScore}</div>
+                            <div class="score-label">Sustainability Score</div>
+                        </div>
+
+                        <div class="garment-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Item ID:</span>
+                                <span class="detail-value">${garment.id}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Type:</span>
+                                <span class="detail-value">${garment.type}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Artisan Share:</span>
+                                <span class="detail-value">30% profit sharing</span>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <a href="#" class="btn btn-primary" onclick="rentGarment('${garment.id}')">
+                                Rent Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update total count
+            document.getElementById('total-garments').textContent = garmentsToRender.length;
+        }
+
+        // Filter functions
+        function applyFilters() {
+            const cultureFilter = document.getElementById('culture-filter').value;
+            const categoryFilter = document.getElementById('category-filter').value;
+            const priceFilter = document.getElementById('price-filter').value;
+            const availabilityFilter = document.getElementById('availability-filter').value;
+
+            filteredGarments = garments.filter(garment => {
+                // Culture filter
+                if (cultureFilter && garment.culture !== cultureFilter) {
+                    return false;
+                }
+
+                // Category filter
+                if (categoryFilter && garment.category !== categoryFilter) {
+                    return false;
+                }
+
+                // Price filter
+                if (priceFilter) {
+                    const [min, max] = priceFilter.split('-').map(Number);
+                    if (max && (garment.dailyRate < min || garment.dailyRate > max)) {
+                        return false;
+                    }
+                    if (!max && garment.dailyRate < min) {
+                        return false;
+                    }
+                }
+
+                // Availability filter
+                if (availabilityFilter === 'Available' && garment.availability !== 'Available') {
+                    return false;
+                }
+                if (availabilityFilter === 'Featured' && !garment.featured) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            renderGarments(filteredGarments);
+        }
+
+        // Global variables
+        let selectedGarment = null;
+        let selectedSize = null;
+        let selectedPaymentMethod = 'xrpl';
+        let userStylePoints = 2847; // This would come from user session/API
+
+        // Action functions
+        function rentGarment(garmentId) {
+            selectedGarment = garments.find(g => g.id === garmentId);
+            if (selectedGarment) {
+                openRentalModal();
+            }
+        }
+
+        function openRentalModal() {
+            const modal = document.getElementById('rental-modal');
+            const garmentInfo = document.getElementById('rental-garment-info');
+
+            // Populate garment information
+            garmentInfo.innerHTML = `
+                <div class="rental-garment-image">
+                    <span>${selectedGarment.emoji}</span>
+                </div>
+                <div class="rental-garment-details">
+                    <h3>${selectedGarment.name}</h3>
+                    <div class="rental-garment-culture">${selectedGarment.culture} • ${selectedGarment.category}</div>
+                    <div class="rental-pricing">
+                        <div class="price-daily">${selectedGarment.dailyRate}/day</div>
+                        <div class="price-weekly">Weekly: ${selectedGarment.weeklyRate} (Save ${(selectedGarment.dailyRate * 7 - selectedGarment.weeklyRate).toFixed(2)})</div>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">${selectedGarment.description}</p>
+                </div>
+            `;
+
+            // Populate size options
+            populateSizeOptions();
+
+            // Set default dates (tomorrow to day after)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dayAfter = new Date();
+            dayAfter.setDate(dayAfter.getDate() + 2);
+
+            document.getElementById('start-date').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('end-date').value = dayAfter.toISOString().split('T')[0];
+
+            // Update balances display (StylePoints + XRPL)
+            updateUserBalance();
+            updateXrpBalance();
+
+            // Calculate initial price
+            calculateRentalPrice();
+
+            modal.style.display = 'block';
+        }
+
+        function closeRentalModal() {
+            document.getElementById('rental-modal').style.display = 'none';
+            selectedGarment = null;
+            selectedSize = null;
+            selectedPaymentMethod = 'xrpl';
+        }
+
+        function populateSizeOptions() {
+            const sizeContainer = document.getElementById('size-options');
+            const sizes = ['XS', 'S', 'M', 'L', 'XL'];
+
+            sizeContainer.innerHTML = sizes.map(size => {
+                const isAvailable = Math.random() > 0.3; // Simulate availability
+                const availableClass = isAvailable ? '' : 'unavailable';
+
+                return `
+                    <div class="size-option ${availableClass}" 
+                         onclick="${isAvailable ? `selectSize(this,'${size}')` : ''}"
+                         data-size="${size}">
+                        ${size}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectSize(el, size) {
+            // Remove previous selection
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            // Mark clicked size
+            el.classList.add('selected');
+            selectedSize = size;
+            validateForm();
+            }
+
+        function selectPaymentMethod(el, method) {
+            // Clear previous selection
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            // Mark the clicked card
+            el.classList.add('selected');
+            selectedPaymentMethod = method;
+            }
+
+        function calculateRentalPrice() {
+            if (!selectedGarment) return;
+
+            const startDate = new Date(document.getElementById('start-date').value);
+            const endDate = new Date(document.getElementById('end-date').value);
+
+            if (!startDate || !endDate || endDate <= startDate) {
+                // Clear summary if dates are invalid
+                document.getElementById('rental-days').textContent = '0 days';
+                document.getElementById('daily-rate').textContent = '$0.00';
+                document.getElementById('security-deposit').textContent = '$0.00';
+                document.getElementById('stylepoints-earned').textContent = '+0 points';
+                document.getElementById('total-cost').textContent = '$0.00';
+                return;
+            }
+
+            const timeDiff = endDate.getTime() - startDate.getTime();
+            const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            // Calculate price (weekly discount for 7+ days)
+            let rentalCost;
+            if (days >= 7) {
+                const weeks = Math.floor(days / 7);
+                const remainingDays = days % 7;
+                rentalCost = (weeks * selectedGarment.weeklyRate) + (remainingDays * selectedGarment.dailyRate);
+            } else {
+                rentalCost = days * selectedGarment.dailyRate;
+            }
+
+            const securityDeposit = selectedGarment.dailyRate * 5; // 5x daily rate as deposit
+            const stylePointsEarned = days * 50; // 50 points per day
+            const totalCost = rentalCost + securityDeposit;
+
+            // Update summary
+            document.getElementById('rental-days').textContent = `${days} day${days > 1 ? 's' : ''}`;
+            document.getElementById('daily-rate').textContent = `${selectedGarment.dailyRate}`;
+            document.getElementById('security-deposit').textContent = `${securityDeposit.toFixed(2)}`;
+            document.getElementById('stylepoints-earned').textContent = `+${stylePointsEarned} points`;
+            document.getElementById('total-cost').textContent = `${totalCost.toFixed(2)}`;
+
+            validateForm();
+        }
+
+        function validateForm() {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            const address = document.getElementById('delivery-address').value.trim();
+            const confirmBtn = document.getElementById('confirm-rental-btn');
+
+            const isValid = startDate && endDate && selectedSize && address.length > 10;
+            confirmBtn.disabled = !isValid;
+        }
+
+        // Update StylePoints panel from backend (off-chain balance)
+        function updateUserBalance() {
+          const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+          const spBadge = document.getElementById('sp-balance');
+          const spUsd   = document.getElementById('sp-balance-usd');
+
+          if (!storedUser.email) {
+            const points = storedUser.stylePoints || 0;
+            spBadge.textContent = (points || 0).toLocaleString();
+            spUsd.textContent   = `≈ $${(points/100).toFixed(2)} USD`;
+            return;
+          }
+
+          api(`/rewards/balance/${encodeURIComponent(storedUser.email)}`)
+            .then(b => {
+              const points = b?.balance || 0;
+              spBadge.textContent = points.toLocaleString();
+              spUsd.textContent   = `≈ $${(points/100).toFixed(2)} USD`;
+            })
+            .catch(() => {
+              const points = storedUser.stylePoints || 0;
+              spBadge.textContent = (points || 0).toLocaleString();
+              spUsd.textContent   = `≈ $${(points/100).toFixed(2)} USD`;
+            });
+        }
+
+        // Fetch XRPL balance (in XRP) for the demo buyer address and show USD equivalent
+        async function updateXrpBalance() {
+          try {
+            const res = await api(`/xrpl/balance/${encodeURIComponent(BUYER_ADDR)}`);
+            // Backend returns { account, balance_xrp } (adjust if your shape differs)
+            const xrp = Number(res?.balance_xrp ?? res?.balance ?? 0);
+            const usd = xrp * XRPL_USD_RATE;
+            document.getElementById('xrpl-balance').textContent     = `${toFixed(xrp)} XRP`;
+            document.getElementById('xrpl-balance-usd').textContent = `≈ $${usd.toFixed(2)} USD`;
+          } catch (e) {
+            // Fallback when API not available
+            document.getElementById('xrpl-balance').textContent     = `0.000000 XRP`;
+            document.getElementById('xrpl-balance-usd').textContent = `≈ $0.00 USD`;
+            console.warn('XRPL balance fetch failed:', e);
+          }
+        }
+
+        async function confirmRental() {
+          try {
+            if (!selectedGarment || !selectedSize) return;
+
+            const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (!storedUser.email) {
+              localStorage.setItem('redirectAfterLogin', 'catalog.html');
+              alert('Please sign in first.');
+              window.location.href = 'signin.html';
+              return;
+            }
+            const email = storedUser.email;
+
+            // Grab summary numbers already displayed
+            const startDate        = document.getElementById('start-date').value;
+            const endDate          = document.getElementById('end-date').value;
+            const address          = document.getElementById('delivery-address').value.trim();
+            const instructions     = document.getElementById('delivery-instructions').value.trim();
+            const occasion         = document.getElementById('occasion').value;
+            const stylePointsEarnedText = document.getElementById('stylepoints-earned').textContent; // like "+150 points"
+            const totalCostText    = document.getElementById('total-cost').textContent;               // like "234.00"
+
+            // Parse numbers
+            const earned = parseInt((stylePointsEarnedText || '0').replace(/[^\d]/g, ''), 10) || 0;
+            const totalUSD = parseFloat(totalCostText || '0') || 0;
+
+            // Optional: ask backend for a pricing quote (holiday/FX/region rules)
+            let adjustedUSD = totalUSD;
+            try {
+              const quote = await api('/pricing/quote', {
+                method: 'POST',
+                body: {
+                  token_id: selectedGarment.id,
+                  base_price: totalUSD,
+                  region: 'US',          // keep simple for demo
+                  fx_feed_id: ''         // empty -> backend uses mock
+                }
+              });
+              if (typeof quote?.final_price === 'number') {
+                adjustedUSD = quote.final_price;
+              }
+            } catch (e) {
+              console.warn('pricing/quote failed, using UI total:', e);
+            }
+
+            // If user chose StylePoints, try to spend points = adjustedUSD*100 (1 point = $0.01)
+            if (selectedPaymentMethod === 'stylepoints') {
+              const pointsToSpend = Math.ceil(adjustedUSD * 100);
+              await api('/rewards/spend', {
+                method: 'POST',
+                body: {
+                  user: email,
+                  amount: pointsToSpend,
+                  reason: `rental_payment_${selectedGarment.id}`
+                }
+              });
+            }
+
+            // If user chose XRPL, send XRP to the merchant for the adjusted USD amount
+            if (selectedPaymentMethod === 'xrpl') {
+              // Convert USD -> XRP using demo rate
+              const amountXRP = Math.max(0.000001, adjustedUSD / XRPL_USD_RATE);
+              const payBody = {
+                to: MERCHANT_ADDR,
+                amountXRP: Number(amountXRP.toFixed(6)) // XRPL drops precision
+              };
+              try {
+                const payRes = await api('/xrpl/pay', {
+                  method: 'POST',
+                  body: payBody
+                });
+                // Optional: show tx hash if backend returns it
+                if (payRes?.hash) {
+                  console.log('XRPL tx hash:', payRes.hash);
+                }
+              } catch (e) {
+                alert('XRPL payment failed: ' + (e?.message || e));
+                throw e;
+              }
+            }
+
+            // Always issue earned points
+            if (earned > 0) {
+              await api('/rewards/issue', {
+                method: 'POST',
+                body: { user: email, amount: earned, reason: `rental_earned_${selectedGarment.id}` }
+              });
+            }
+
+            // (Optional) record rental server-side later with /rental/create
+            // await api('/rental/create', { method: 'POST', body: { email, garment_id: selectedGarment.id, startDate, endDate, size: selectedSize, address, occasion, paid_usd: adjustedUSD, method: selectedPaymentMethod } });
+
+            alert(
+              `Rental Confirmed! 🎉\n\n` +
+              `Garment: ${selectedGarment.name}\n` +
+              `Size: ${selectedSize}\n` +
+              `Dates: ${startDate} to ${endDate}\n` +
+              `Adjusted Total: ${adjustedUSD.toFixed(2)} USD\n` +
+              `Earned: +${earned} points\n` +
+              `Payment: ${getPaymentMethodName(selectedPaymentMethod)}`
+            );
+
+            updateUserBalance();
+            await updateXrpBalance(); // refresh to show deduction
+            closeRentalModal();
+          } catch (err) {
+            alert(err.message);
+          }
+        }
+
+        function getPaymentMethodName(method) {
+            const names = {
+                'xrpl': 'XRPL (USDToken)',
+                'stylepoints': 'StylePoints',
+                'traditional': 'Credit Card'
+            };
+            return names[method] || method;
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initial render
+            renderGarments(garments);
+
+            // Filter event listeners
+            document.getElementById('culture-filter').addEventListener('change', applyFilters);
+            document.getElementById('category-filter').addEventListener('change', applyFilters);
+            document.getElementById('price-filter').addEventListener('change', applyFilters);
+            document.getElementById('availability-filter').addEventListener('change', applyFilters);
+
+            // Modal form validation listeners
+            document.getElementById('delivery-address').addEventListener('input', validateForm);
+
+            // Close modal when clicking outside
+            document.getElementById('rental-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeRentalModal();
+                }
+            });
+
+            // Set minimum date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const minDate = tomorrow.toISOString().split('T')[0];
+            document.getElementById('start-date').min = minDate;
+            document.getElementById('end-date').min = minDate;
+
+            // Preload balances at page load
+            updateUserBalance();
+            updateXrpBalance();
+        });
+    </script>
+    <script>
+        // --- Risk helpers ---
+        async function fetchNftRisk(tokenId) {
+        try {
+            const res = await api(`/risk/score/${encodeURIComponent(tokenId)}`);
+            // res: { token_id, risk_score, risk_grade, ... }
+            return res;
+        } catch (e) {
+            console.warn('fetchNftRisk failed for', tokenId, e);
+            return null;
+        }
+        }
+
+        async function fetchUserRisk(email) {
+        if (!email) return null;
+        try {
+            const res = await api(`/risk/user/score/${encodeURIComponent(email)}`);
+            // res: { user_id, user_score, user_grade, events }
+            return res;
+        } catch (e) {
+            console.warn('fetchUserRisk failed for', email, e);
+            return null;
+        }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - CultureWear</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            padding: 2rem 0;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .welcome-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Current Rentals */
+        .rental-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .rental-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .rental-image {
+            width: 100px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .rental-details {
+            flex: 1;
+        }
+
+        .rental-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .rental-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rental-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-returning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* StylePoints & Rewards */
+        .stylepoints-card {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .points-balance {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .points-value {
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .redeem-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .redeem-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Blockchain Verification */
+        .verification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .verification-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .verified {
+            background: #28a745;
+        }
+
+        .pending {
+            background: #ffc107;
+        }
+
+        .blockchain-hash {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #666;
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .action-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        /* Payment History */
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-details {
+            flex: 1;
+        }
+
+        .payment-amount {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .payment-method {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .xrp-badge {
+            background: linear-gradient(45deg, #23282d, #3c4956);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-section {
+                text-align: center;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .rental-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .rental-image {
+                width: 100%;
+                height: 150px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">CultureWear</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#browse">Browse</a></li>
+                <li><a href="#orders">My Orders</a></li>
+                <li><a href="#stylepoints">StylePoints</a></li>
+            </ul>
+            <div class="user-info">
+                <span id="welcome-text">Welcome, Guest!</span>
+                <div class="user-avatar" id="user-avatar">G</div>
+                <button onclick="logout()"
+                    style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; margin-left: 1rem;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard container">
+        <!-- Backend status widget (minimal demo) -->
+        <section id="backend-demo" style="margin:16px 0;padding:12px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <span id="backend-status"
+                  style="padding:6px 10px;border-radius:999px;font-weight:600;background:#fff3cd;color:#8a6d3b;border:1px solid #ffeeba">
+              Checking backend…
+            </span>
+
+            <button id="btn-test-api"
+                    style="padding:8px 12px;border-radius:10px;border:1px solid #d1d5db;background:white;cursor:pointer">
+              ▶️ Test API (pricing quote)
+            </button>
+          </div>
+
+          <pre id="backend-result" style="margin-top:10px;background:#111827;color:#d1d5db;padding:10px;border-radius:8px;white-space:pre-wrap"></pre>
+        </section>
+        <!-- Rental Bonds (Demo) -->
+        <section id="bonds-demo" style="margin:16px 0;padding:12px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+            <strong>🎟 Rental Bonds (Demo)</strong>
+            <span style="font-size:12px;color:#6b7280">Issue prepaid rental bundles with on-click API calls</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:8px;align-items:end">
+            <label style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b7280">User (email)</span>
+              <input id="bond-user" placeholder="ana@example.com" style="padding:8px;border:1px solid #d1d5db;border-radius:8px"/>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b7280">Garment Token ID</span>
+              <input id="bond-token" placeholder="DEMO-TOKEN-001" style="padding:8px;border:1px solid #d1d5db;border-radius:8px"/>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b7280">Quantity</span>
+              <input id="bond-qty" type="number" min="1" value="1" style="padding:8px;border:1px solid #d1d5db;border-radius:8px"/>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b7280">Tenor (days)</span>
+              <input id="bond-tenor" type="number" min="7" value="30" style="padding:8px;border:1px solid #d1d5db;border-radius:8px"/>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b7280">Base Price (USD)</span>
+              <input id="bond-base" type="number" min="0" step="0.01" value="80" style="padding:8px;border:1px solid #d1d5db;border-radius:8px"/>
+            </label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button id="btn-bond-quote" style="padding:8px 12px;border-radius:10px;border:1px solid #d1d5db;background:white;cursor:pointer">🧮 Get Quote</button>
+              <button id="btn-bond-purchase" style="padding:8px 12px;border-radius:10px;border:1px solid #d1d5db;background:white;cursor:pointer">🛒 Purchase</button>
+              <button id="btn-bond-redeem" style="padding:8px 12px;border-radius:10px;border:1px solid #d1d5db;background:white;cursor:pointer">🎁 Redeem</button>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;font-size:12px;color:#374151">
+            <div>Quote ID: <code id="bond-quote-id">—</code></div>
+            <div>Bond ID: <code id="bond-id">—</code></div>
+          </div>
+
+          <pre id="bond-result" style="margin-top:10px;background:#111827;color:#d1d5db;padding:10px;border-radius:8px;white-space:pre-wrap"></pre>
+        </section>
+        <div class="dashboard-header">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    <h1 id="dashboard-welcome">Welcome back, Guest! 👋</h1>
+                    <p>Your sustainable fashion journey continues</p>
+                </div>
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Total Rentals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">847</div>
+                        <div class="stat-label">CO₂ Saved (kg)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Countries Explored</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-column">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>👗</span> Current Rentals
+                    </h2>
+
+                    <div class="rental-item">
+                        <div class="rental-image">🥻</div>
+                        <div class="rental-details">
+                            <div class="rental-title">Elegant Silk Saree - Royal Blue</div>
+                            <div class="rental-meta">Rented: Dec 15, 2024 • Return by: Dec 20, 2024</div>
+                            <div class="rental-meta">NFT ID: #SAR-2024-4782 • Times Worn: 3/5</div>
+                            <span class="rental-status status-active">Active Rental</span>
+                        </div>
+                    </div>
+
+                    <div class="rental-item">
+                        <div class="rental-image">👘</div>
+                        <div class="rental-details">
+                            <div class="rental-title">Traditional Furisode Kimono</div>
+                            <div class="rental-meta">Event: New Year Celebration • Returned: Dec 18, 2024</div>
+                            <div class="rental-meta">NFT ID: #KIM-2024-1205 • Cleaning: Verified ✓</div>
+                            <span class="rental-status status-delivered">Returned Successfully</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>🔗</span> Blockchain Verification
+                    </h2>
+
+                    <div class="verification-item">
+                        <div>
+                            <div><strong>Delivery Confirmation</strong></div>
+                            <div style="font-size: 0.9rem; color: #666;">Saree delivery verified</div>
+                        </div>
+                        <div class="verification-status">
+                            <div class="status-icon verified"></div>
+                            <span>Verified</span>
+                        </div>
+                    </div>
+
+                    <div class="verification-item">
+                        <div>
+                            <div><strong>Return Processing</strong></div>
+                            <div style="font-size: 0.9rem; color: #666;">Kimono return & cleaning</div>
+                        </div>
+                        <div class="verification-status">
+                            <div class="status-icon pending"></div>
+                            <span>Processing</span>
+                        </div>
+                    </div>
+
+                    <div class="verification-item">
+                        <div>
+                            <div><strong>Quality Assessment</strong></div>
+                            <div class="blockchain-hash">0x7a9f...4e2b</div>
+                        </div>
+                        <div class="verification-status">
+                            <div class="status-icon verified"></div>
+                            <span>On-Chain</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>💳</span> Recent Payments
+                    </h2>
+
+                    <div class="payment-item">
+                        <div class="payment-details">
+                            <div class="payment-amount">$89.00 USD</div>
+                            <div class="payment-method">
+                                <span class="xrp-badge">XRPL</span>
+                                Via USDToken • Dec 15, 2024
+                            </div>
+                        </div>
+                        <div style="color: #28a745;">✓ Complete</div>
+                    </div>
+
+                    <div class="payment-item">
+                        <div class="payment-details">
+                            <div class="payment-amount">$65.00 USD</div>
+                            <div class="payment-method">
+                                <span class="xrp-badge">XRPL</span>
+                                Via USDToken • Dec 08, 2024
+                            </div>
+                        </div>
+                        <div style="color: #28a745;">✓ Complete</div>
+                    </div>
+
+                    <div class="payment-item">
+                        <div class="payment-details">
+                            <div class="payment-amount">$15.00 USD</div>
+                            <div class="payment-method">
+                                <span class="xrp-badge">XRPL</span>
+                                Refund - Late delivery • Dec 06, 2024
+                            </div>
+                        </div>
+                        <div style="color: #17a2b8;">↩ Refunded</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>💎</span> StylePoints Balance
+                    </h2>
+
+                    <div class="stylepoints-card">
+                        <div class="points-balance">2,847</div>
+                        <div class="points-value">≈ $28.47 USD value</div>
+                        <a href="#" class="redeem-btn">Redeem Points</a>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem; color: #2c3e50;">Recent Point Activity</h4>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
+                            +150 points • Kimono return bonus
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
+                            +200 points • 5-star review given
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            +100 points • On-time return
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>⚡</span> Quick Actions
+                    </h2>
+
+                    <div class="quick-actions">
+                        <a href="index.html" class="action-btn">
+                            <span class="action-icon">🔍</span>
+                            <div>
+                                <div><strong>Browse Outfits</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Discover new cultural wear</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="action-btn">
+                            <span class="action-icon">📦</span>
+                            <div>
+                                <div><strong>Track Delivery</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Monitor your current orders</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="action-btn">
+                            <span class="action-icon">💬</span>
+                            <div>
+                                <div><strong>Leave Review</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Share your experience</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="action-btn">
+                            <span class="action-icon">🎁</span>
+                            <div>
+                                <div><strong>Refer Friends</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Earn bonus StylePoints</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="action-btn" onclick="testWalletBalance(event)">
+                            <span class="action-icon">💰</span>
+                            <div>
+                                <div><strong>Check XRPL Balance</strong></div>
+                                <div style="font-size: 0.8rem; color: #666;">Demo call to /xrpl/balance</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-section" id="risk-and-fdc">
+                    <h2 class="section-title">
+                        <span>🛡️</span> Trust &amp; Risk
+                    </h2>
+
+                    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+                      <span id="fdc-badge" style="padding:4px 10px;border-radius:999px;background:#fff3cd;color:#8a6d3b;border:1px solid #ffeeba;font-size:12px">
+                        FDC: Checking…
+                      </span>
+                      <small id="fdc-hint" style="color:#6b7280"></small>
+                    </div>
+
+                    <div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:12px">
+                      <div style="font-weight:600;margin-bottom:6px">Renter CuddleScore™</div>
+                      <div>Score: <strong id="user-risk-score">—</strong> &nbsp; Grade: <strong id="user-risk-grade">—</strong></div>
+                    </div>
+
+                    <div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px">
+                      <div style="font-weight:600;margin-bottom:6px">Garment CareScore™ (NFT)</div>
+                      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+                        <input id="risk-token-id" placeholder="DEMO-TOKEN-001" style="flex:1;padding:8px;border:1px solid #d1d5db;border-radius:8px"/>
+                        <button id="btn-risk-fetch" style="padding:8px 12px;border-radius:10px;border:1px solid #d1d5db;background:white;cursor:pointer">Fetch</button>
+                      </div>
+                      <div>Score: <strong id="nft-risk-score">—</strong> &nbsp; Grade: <strong id="nft-risk-grade">—</strong></div>
+                    </div>
+                  </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span>📊</span> Sustainability Impact
+                    </h2>
+
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2rem; color: #28a745; margin-bottom: 0.5rem;">🌱</div>
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">Environmental Hero</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                            By choosing rental over buying, you've prevented 847kg of CO₂ emissions
+                        </div>
+                        <div
+                            style="background: #f8f9fa; padding: 1rem; border-radius: 10px; font-size: 0.8rem; color: #666;">
+                            That's equivalent to driving 2,100 fewer miles! 🚗→🌍
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+    // Fallback helpers if api.js is not present
+    (function(){
+      const BASE_URL = window.API_BASE || localStorage.getItem('API_BASE') || 'http://127.0.0.1:8000';
+      if (typeof window.api !== 'function') {
+        window.api = async function(path, { method = 'GET', body, headers } = {}) {
+          const res = await fetch(`${BASE_URL}${path}`, {
+            method,
+            headers: { 'Content-Type': 'application/json', ...(headers || {}) },
+            body: body ? JSON.stringify(body) : undefined,
+          });
+          if (!res.ok) {
+            let msg; try { msg = await res.text(); } catch {}
+            throw new Error(msg || `API ${method} ${path} failed: ${res.status}`);
+          }
+          return res.json();
+        }
+      }
+      if (typeof window.getCurrentUser !== 'function') {
+        window.getCurrentUser = () => { try { return JSON.parse(localStorage.getItem('currentUser')||'{}'); } catch { return {}; } };
+      }
+    })();
+    </script>
+    <script>
+      // Read session helpers
+      function currentUser() {
+        try { return JSON.parse(localStorage.getItem('currentUser') || '{}'); }
+        catch { return {}; }
+      }
+
+      function displayNameFromEmail(email) {
+        if (!email) return 'Guest';
+        const name = email.split('@')[0];
+        return name.charAt(0).toUpperCase() + name.slice(1);
+      }
+
+      async function refreshBalance(email) {
+        if (!email) return;
+        try {
+          const b = await api(`/rewards/balance/${encodeURIComponent(email)}`);
+          const points = Number(b?.balance || 0);
+          const pointsBalance = document.querySelector('.points-balance');
+          const pointsValue   = document.querySelector('.points-value');
+          if (pointsBalance) pointsBalance.textContent = points.toLocaleString();
+          if (pointsValue)   pointsValue.textContent = `≈ $${(points/100).toFixed(2)} USD value`;
+          // also stash to local for other pages
+          const u = currentUser();
+          u.stylePoints = points;
+          localStorage.setItem('currentUser', JSON.stringify(u));
+        } catch (err) {
+          console.warn('Balance fetch failed, keeping local UI:', err.message);
+        }
+      }
+
+      // Check authentication status on page load
+      function checkAuthStatus() {
+        const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
+        const u = currentUser();
+        const email = u.email || localStorage.getItem('userEmail');
+
+        if (!loggedIn || !email) {
+          alert('Please sign in to access your dashboard.');
+          window.location.href = 'signin.html';
+          return;
+        }
+
+        const name = localStorage.getItem('userName') || displayNameFromEmail(email);
+        const welcomeText = document.getElementById('welcome-text');
+        const avatar      = document.getElementById('user-avatar');
+        const headline    = document.getElementById('dashboard-welcome');
+
+        if (welcomeText) welcomeText.textContent = `Welcome, ${name}!`;
+        if (avatar)      avatar.textContent = name.charAt(0).toUpperCase();
+        if (headline)    headline.textContent = `Welcome back, ${name}! 👋`;
+
+        // Initialize points from local (instant), then fetch live from API
+        const pointsBalance = document.querySelector('.points-balance');
+        const pointsValue   = document.querySelector('.points-value');
+        if (u.stylePoints && pointsBalance && pointsValue) {
+          pointsBalance.textContent = Number(u.stylePoints).toLocaleString();
+          pointsValue.textContent   = `≈ $${(Number(u.stylePoints)/100).toFixed(2)} USD value`;
+        }
+
+        refreshBalance(email);
+        // Also refresh user risk (for the Trust &amp; Risk widget)
+        try { refreshUserRiskScore(email); } catch {}
+
+        // Show signup bonus message if user just signed up (optional UX)
+        const signupComplete = localStorage.getItem('signupComplete');
+        if (signupComplete === 'true') {
+          setTimeout(() => {
+            alert(`🎉 Welcome to CultureWear, ${name}!\n\nYour account is ready and you've received welcome StylePoints. Start exploring cultural attire!`);
+            localStorage.removeItem('signupComplete');
+          }, 800);
+        }
+      }
+
+      // Logout function (unchanged)
+      function logout() {
+        if (confirm('Are you sure you want to logout?')) {
+          localStorage.removeItem('userLoggedIn');
+          localStorage.removeItem('userName');
+          localStorage.removeItem('loginMethod');
+          localStorage.removeItem('userEmail');
+          localStorage.removeItem('walletType');
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('signupComplete');
+          window.location.href = 'index.html';
+        }
+      }
+
+      // Expose logout globally because it's used by the button onclick
+      window.logout = logout;
+      document.addEventListener('DOMContentLoaded', checkAuthStatus);
+    </script>
+
+    <!-- Rental Bonds demo script -->
+    <script>
+      (function(){
+        const $ = (sel) => document.querySelector(sel);
+
+        let lastQuoteId = null;
+        let lastBondId  = null;
+
+        function fillDefaultUser() {
+          const email = (window.getCurrentUser && window.getCurrentUser().email) ||
+                        localStorage.getItem('userEmail') ||
+                        '';
+          const input = $('#bond-user');
+          if (input && !input.value) input.value = email || 'ana@example.com';
+        }
+
+        async function doQuote() {
+          try {
+            fillDefaultUser();
+            const user  = $('#bond-user')?.value?.trim();
+            const token = $('#bond-token')?.value?.trim() || 'DEMO-TOKEN-001';
+            const qty   = parseInt($('#bond-qty')?.value || '1', 10) || 1;
+            const tenor = parseInt($('#bond-tenor')?.value || '30', 10) || 30;
+            const base  = parseFloat($('#bond-base')?.value || '80') || 80;
+
+            if (!user) { alert('Please enter user email.'); return; }
+
+            // New backend expects bundle_rentals + optional knobs and returns quote_id
+            const res = await api('/rental/bonds/quote', {
+              method: 'POST',
+              body: {
+                user,
+                token_id: token,
+                bundle_rentals: qty,
+                tenor_days: tenor,
+                base_price: base,
+                region: 'US',
+                holiday_multiplier: 1.0,
+                risk_spread_bps: 0
+              }
+            });
+
+            lastBondId = null; // reset previously created bond
+            lastQuoteId = res.quote_id || null;
+            $('#bond-quote-id').textContent = lastQuoteId || '—';
+            $('#bond-result').textContent = JSON.stringify(res, null, 2);
+          } catch (e) {
+            $('#bond-result').textContent = 'Quote failed: ' + (e?.message || String(e));
+          }
+        }
+
+        async function doPurchase() {
+          try {
+            fillDefaultUser();
+            const user  = $('#bond-user')?.value?.trim();
+            const token = $('#bond-token')?.value?.trim() || 'DEMO-TOKEN-001';
+            const qty   = parseInt($('#bond-qty')?.value || '1', 10) || 1;
+            const tenor = parseInt($('#bond-tenor')?.value || '30', 10) || 30;
+            const base  = parseFloat($('#bond-base')?.value || '80') || 80;
+
+            if (!user) { alert('Please enter user email.'); return; }
+
+            // Build request body compatible with BOTH backend styles:
+            // 1) New style: uses quote_id only
+            // 2) Legacy style: requires full purchase params (base_price, etc.)
+            const body = {
+              user,
+              token_id: token,
+              bundle_rentals: qty,
+              tenor_days: tenor,
+              base_price: base,
+              region: 'US',
+              holiday_multiplier: 1.0,
+              risk_spread_bps: 0,
+              pay_method: 'xrpl',          // demo stub
+              pay_tx_hash: 'DEMO123456'    // demo stub
+            };
+
+            // If a quote was obtained, include it (newer backend will prefer this)
+            if (lastQuoteId) body.quote_id = lastQuoteId;
+
+            const res = await api('/rental/bonds/purchase', {
+              method: 'POST',
+              body
+            });
+
+            lastBondId = res.bond_id || null;
+            $('#bond-id').textContent = lastBondId || '—';
+            $('#bond-result').textContent = JSON.stringify(res, null, 2);
+          } catch (e) {
+            $('#bond-result').textContent = 'Purchase failed: ' + (e?.message || String(e));
+          }
+        }
+
+        async function doRedeem() {
+          try {
+            fillDefaultUser();
+            const user = $('#bond-user')?.value?.trim();
+            const token = $('#bond-token')?.value?.trim() || 'DEMO-TOKEN-001';
+            if (!user) { alert('Please enter user email.'); return; }
+            const bondId = lastBondId || prompt('Enter Bond ID to redeem:', '');
+
+            if (!bondId) { alert('No bond ID provided.'); return; }
+
+            const res = await api('/rental/bonds/redeem', {
+              method: 'POST',
+              body: {
+                bond_id: bondId,
+                user,
+                token_id: token
+              }
+            });
+
+            $('#bond-result').textContent = JSON.stringify(res, null, 2);
+          } catch (e) {
+            $('#bond-result').textContent = 'Redeem failed: ' + (e?.message || String(e));
+          }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const q = document.getElementById('btn-bond-quote');
+          const p = document.getElementById('btn-bond-purchase');
+          const r = document.getElementById('btn-bond-redeem');
+          if (q) q.addEventListener('click', doQuote);
+          if (p) p.addEventListener('click', doPurchase);
+          if (r) r.addEventListener('click', doRedeem);
+          fillDefaultUser();
+        });
+      })();
+    </script>
+    <!-- Minimal backend connectivity demo script -->
+    <script>
+    (function () {
+      const $ = (sel) => document.querySelector(sel);
+
+      async function checkBackend() {
+        const statusEl = $('#backend-status');
+        const resultEl = $('#backend-result');
+
+        if (!statusEl || !resultEl) return; // widget not on this page
+
+        try {
+          // Hit backend root (your FastAPI "/" health endpoint)
+          const info = await api('/');
+          statusEl.textContent = 'Backend Connected ✓';
+          statusEl.style.background = '#e6fffa';
+          statusEl.style.color = '#065f46';
+          statusEl.style.borderColor = '#99f6e4';
+
+          resultEl.textContent =
+            'Health:\n' + JSON.stringify(info, null, 2) + '\n\n' +
+            'Tip: Click "Test API" to hit a real business endpoint.';
+        } catch (e) {
+          statusEl.textContent = 'Backend Disconnected ✗';
+          statusEl.style.background = '#fee2e2';
+          statusEl.style.color = '#991b1b';
+          statusEl.style.borderColor = '#fecaca';
+          resultEl.textContent = (e && e.message) || String(e);
+        }
+      }
+
+      async function testBusinessAPI() {
+        const resultEl = document.querySelector('#backend-result');
+        if (!resultEl) return;
+
+        try {
+          const quote = await api('/pricing/quote', {
+            method: 'POST',
+            body: {
+              token_id: 'DEMO-TOKEN-001',
+              base_price: 120,
+              region: 'US',
+              fx_feed_id: ''
+            }
+          });
+
+          resultEl.textContent =
+            'Backend Connected ✓\n\n' +
+            'Pricing Quote response:\n' +
+            JSON.stringify(quote, null, 2);
+        } catch (e) {
+          resultEl.textContent = 'Test API failed:\n' + ((e && e.message) || String(e));
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // Only wire up if the widget exists on this page
+        if (document.getElementById('backend-demo')) {
+          checkBackend();
+          const btn = document.getElementById('btn-test-api');
+          if (btn) btn.addEventListener('click', testBusinessAPI);
+        }
+      });
+    })();
+    </script>
+
+    <!-- XRPL quick demo script -->
+    <script>
+      async function testWalletBalance(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        const testAddr = "rnnfe5s5bGJAxjEG5wm28GtXDJ57Ai3FWE"; // demo faucet account (provided)
+
+        try {
+          const res = await api(`/xrpl/balance/${encodeURIComponent(testAddr)}`);
+          // Accept either { xrp: number } or { balance: number }
+          const bal = (typeof res.xrp === 'number')
+            ? res.xrp
+            : (typeof res.balance === 'number' ? res.balance : 'N/A');
+
+          alert(`XRPL Test Balance\n\nAddress: ${testAddr}\nBalance: ${bal} XRP`);
+        } catch (err) {
+          alert("Wallet check failed: " + (err && err.message ? err.message : String(err)));
+        }
+      }
+    </script>
+
+    <script>
+      // --- Risk &amp; FDC widget wiring (frontend only) ---
+
+      async function loadFdcStatus() {
+        const badge = document.getElementById('fdc-badge');
+        const hint  = document.getElementById('fdc-hint');
+        if (!badge) return; // widget not on this page
+
+        try {
+          const s = await api('/risk/fdc/status');
+          if (s.use_fdc) {
+            badge.textContent = 'FDC: ON';
+            badge.style.background   = '#e6fffa';
+            badge.style.color        = '#065f46';
+            badge.style.borderColor  = '#99f6e4';
+          } else {
+            badge.textContent = 'FDC: OFF';
+            badge.style.background   = '#fee2e2';
+            badge.style.color        = '#991b1b';
+            badge.style.borderColor  = '#fecaca';
+          }
+          if (hint) {
+            hint.textContent = s.hint || '';
+          }
+        } catch (e) {
+          badge.textContent = 'FDC: Unknown';
+        }
+      }
+
+      async function refreshUserRiskScore(email) {
+        const sEl = document.getElementById('user-risk-score');
+        const gEl = document.getElementById('user-risk-grade');
+        if (!sEl || !gEl || !email) return;
+
+        try {
+          const r = await api(`/risk/user/score/${encodeURIComponent(email)}`);
+          sEl.textContent = typeof r.user_score === 'number' ? r.user_score.toFixed(1) : '—';
+          gEl.textContent = r.user_grade || '—';
+        } catch (e) {
+          sEl.textContent = '—';
+          gEl.textContent = '—';
+        }
+      }
+
+      async function fetchNftRisk() {
+        const idInput = document.getElementById('risk-token-id');
+        const sEl = document.getElementById('nft-risk-score');
+        const gEl = document.getElementById('nft-risk-grade');
+        if (!idInput || !sEl || !gEl) return;
+
+        const tokenId = (idInput.value || '').trim() || 'DEMO-TOKEN-001';
+        try {
+          const r = await api(`/risk/score/${encodeURIComponent(tokenId)}`);
+          sEl.textContent = typeof r.risk_score === 'number' ? r.risk_score.toFixed(1) : '—';
+          gEl.textContent = r.risk_grade || '—';
+        } catch (e) {
+          sEl.textContent = '—';
+          gEl.textContent = '—';
+        }
+      }
+
+      // Hook into existing auth flow so the widget auto-populates
+      (function attachRiskWidget() {
+        document.addEventListener('DOMContentLoaded', () => {
+          // Try to load FDC badge
+          loadFdcStatus();
+
+          // Pull current user from local/session
+          let email = '';
+          try {
+            const u = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            email = u.email || localStorage.getItem('userEmail') || '';
+          } catch {}
+
+          // Populate user risk if signed-in
+          if (email) refreshUserRiskScore(email);
+
+          // Default a token id for quick demo
+          const tokenInput = document.getElementById('risk-token-id');
+          if (tokenInput && !tokenInput.value) tokenInput.value = 'DEMO-TOKEN-001';
+
+          // Wire the fetch button
+          const btn = document.getElementById('btn-risk-fetch');
+          if (btn) btn.addEventListener('click', fetchNftRisk);
+        });
+      })();
+    </script>
+    <!-- Include Chatbot Widget -->
+    <script src="chatbot-widget.js"></script>
+
+</body>
+
+</html>
